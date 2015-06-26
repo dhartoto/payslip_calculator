@@ -1,6 +1,7 @@
 require 'input_file'
 require 'output_file'
 require 'staff'
+require 'payslip'
 
 class Generator
 

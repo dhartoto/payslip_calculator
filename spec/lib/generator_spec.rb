@@ -1,7 +1,5 @@
 require 'spec_helper'
 require 'generator'
-require 'payslip'
-require 'pry'
 
 describe Generator do
 
