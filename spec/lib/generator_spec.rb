@@ -1,5 +1,6 @@
 require 'spec_helper'
 require 'generator'
+require 'payslip'
 require 'pry'
 
 describe Generator do
@@ -14,45 +15,75 @@ describe Generator do
       resp = Generator.new
       expect(resp.payslips).to eq([])
     end
-    it 'assigns display with nil' do
+    it 'assigns error_message with nil' do
       resp = Generator.new
-      expect(resp.display).to be_nil
+      expect(resp.error_message).to be_nil
+    end
+    it 'assigns success_message' do
+      msg = "Payslips have been generated and may be retreived from the 'output' folder."
+      resp = Generator.new
+      expect(resp.success_message).to eq(msg)
     end
   end
 
-  describe '.run' do
+  describe '#run' do
 
-    context 'when importing CSV input' do
+    let(:staff) { double('staff') }
+    before { allow(Staff).to receive(:create) { staff } }
 
-      let(:file) { double('input_file') }
+    context 'when staff is present' do
 
-      context 'when file not present' do
-        it 'assigns error message to display' do
-          error_message = "Input file is not present. Please save input file into"\
-            "the 'Input' folder and try again."
-          allow(file).to receive_messages(loaded?: false, error_message: error_message)
-          allow(InputFile).to receive(:import) { file }
+      let(:generator) { Generator.new }
 
-          resp = PayslipGenerator.run
-          msg = "Input file is not present. Please save input file into"\
-            "the 'Input' folder and try again."
-          expect(resp.display).to eq(msg)
-        end
+      before do
+        allow(staff).to receive_messages(present?: true, list:  ['staff_1', 'staff_2'])
+        allow(Payslip).to receive(:generate) { 'pay_slip' }
       end
-      context 'when file is blank' do
-        it 'assigns error message to display' do
-          error_message = "File is blank. Please populate input CSV file and try"
-          allow(file).to receive_messages(loaded?: false, error_message: error_message)
-          allow(InputFile).to receive(:import) { file }
 
-          resp = PayslipGenerator.run
-          expect(resp.display).to eq(error_message)
-        end
+      it 'generates payslips' do
+        generator.run
+        expect(generator.payslips.count).to eq(2)
       end
-      context 'when no error'
+      it 'creates output file' do
+        expect(OutputFile).to receive(:deliver)
+        generator.run
+      end
     end
-    context 'when exporting CSV output'
 
+    context 'staff is not present' do
+
+      let(:error_message) { "Input file has not been uploaded. Please save your file"\
+        " in the 'Input' folder, type 'cont' then click enter." }
+      let(:generator) { Generator.new }
+
+        before do
+          allow(staff).to receive(:present?).and_return(false, true)
+          allow(staff).to receive_messages(
+            error_message: error_message,
+            list:  ['staff_1', 'staff_2']
+          )
+        end
+
+      it 'assigns error message to display' do
+        allow(generator).to receive(:gets) { 'cont' }
+        msg = error_message + "\nOr type 'exit' and hit 'Enter' to exit the program."
+
+        generator.run
+
+        expect(generator.error_message).to eq(msg)
+      end
+      it 'creates staff after user enters cont' do
+        allow(generator).to receive(:gets) { 'cont' }
+        expect(Staff).to receive(:create)
+        generator.run
+      end
+      it 'exits with message after user enters exit' do
+        allow(generator).to receive(:gets) { 'exit' }
+        msg = "Exiting...Goodbye!"
+        resp = lambda{ generator.run }
+        expect(resp).to raise_error(SystemExit, msg)
+      end
+    end
   end
 
 end
