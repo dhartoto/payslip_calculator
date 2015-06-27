@@ -15,12 +15,11 @@ module Input
 
     def self.import
       if not file_present?
-        msg = "Input file has not been uploaded. Please save your file"\
-          " in the 'input' folder, type 'cont' then click enter."
+        msg = "Input file has not been uploaded. Please save input file"\
+          " in to the 'input' folder."
         new(error_message: msg)
       elsif import_file.empty?
-        msg = "Input file is blank. Please add employee details to file, type"\
-         " 'cont' then click enter."
+        msg = "Input file is blank. Please add employee details to file."
         new(error_message: msg)
       else
         new(content: build_content)

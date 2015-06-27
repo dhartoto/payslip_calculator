@@ -52,8 +52,8 @@ describe Input do
         end
         it 'should return error message' do
           resp = Input::Data.import
-          msg = "Input file has not been uploaded. Please save your file"\
-            " in the 'input' folder, type 'cont' then click enter."
+          msg = "Input file has not been uploaded. Please save input file"\
+            " in to the 'input' folder."
           expect(resp.error_message).to eq(msg)
         end
       end
@@ -72,8 +72,7 @@ describe Input do
         end
         it 'should return error message' do
           resp = Input::Data.import
-          msg = "Input file is blank. Please add employee details to file, type"\
-           " 'cont' then click enter."
+          msg = "Input file is blank. Please add employee details to file."
           expect(resp.error_message).to eq(msg)
         end
       end
