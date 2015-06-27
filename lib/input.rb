@@ -46,5 +46,55 @@ module Input
       file.split(/\n/)
     end
   end
+require 'pry'
+  class Validator
+
+    attr_reader :valid, :error_messages
+
+    def initialize(options={})
+      @valid = options[:valid]
+      @error_messages = options[:error_messages]
+    end
+
+    def self.validate(data, line_nr)
+      data_arr = data.split(',')
+      error_messages = check_for_errors(data_arr, line_nr)
+      error_messages.empty? ? new(valid: true) : new(error_messages: error_messages)
+    end
+
+    def successful?
+      !!valid
+    end
+
+    private
+
+      def self.check_for_errors(array, line_nr)
+        # First validation is seperated because other validation fails if input nr < 5.
+        # This is a limitation in the validation algorithm.
+        if not_enough_user_inputs?(array)
+          error = "Line #{line_nr}: Not enough user inputs.\n"
+        else
+          error = ''
+          error = "Line #{line_nr}: Annual salary cannot be negative.\n" if salary_negative?(array)
+          error += "Line #{line_nr}: Super rate has to be between 0% and 50% (inclusive).\n"\
+            if super_rate_exceed_range?(array)
+        end
+        error
+      end
+
+      def self.salary_negative?(array)
+        array[2].to_i < 0
+      end
+
+      def self.not_enough_user_inputs?(array)
+        array.length != 5
+      end
+
+      def self.super_rate_exceed_range?(array)
+        rate = array[3].split('%').first.to_f
+        rate <= 0 || rate >= 50
+      end
+
+  end
 
 end
