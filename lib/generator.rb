@@ -20,7 +20,7 @@ class Generator
       self.error_message += "Enter '1' to continue or '2' to exit the program."
       puts error_message
       input = gets.chomp
-      abort("Exiting...Goodbye!") if input == 'exit'
+      abort("Exiting...Goodbye!") if input == '2'
       self.staff = Staff.create
     end
     generate_payslips

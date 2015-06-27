@@ -65,7 +65,7 @@ describe Generator do
         end
 
       it 'assigns error message to display' do
-        allow(generator).to receive(:gets) { 'cont' }
+        allow(generator).to receive(:gets) { '1' }
         msg = error_message + "\nEnter '1' to continue or '2' to exit the program."
 
         generator.run
@@ -73,12 +73,12 @@ describe Generator do
         expect(generator.error_message).to eq(msg)
       end
       it 'creates staff after user enters cont' do
-        allow(generator).to receive(:gets) { 'cont' }
+        allow(generator).to receive(:gets) { '1' }
         expect(Staff).to receive(:create)
         generator.run
       end
       it 'exits with message after user enters exit' do
-        allow(generator).to receive(:gets) { 'exit' }
+        allow(generator).to receive(:gets) { '2' }
         msg = "Exiting...Goodbye!"
         resp = lambda{ generator.run }
         expect(resp).to raise_error(SystemExit, msg)
