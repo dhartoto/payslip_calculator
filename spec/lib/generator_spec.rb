@@ -4,8 +4,10 @@ require 'generator'
 describe Generator do
 
   describe '.new' do
+
+    before { allow(Staff).to receive(:create) { [] } }
+
     it 'assigns employees with empty array' do
-      allow(Staff).to receive(:create) { [] }
       resp = Generator.new
       expect(resp.staff).to be_an_instance_of(Array)
     end
