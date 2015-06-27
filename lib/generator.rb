@@ -13,10 +13,11 @@ class Generator
     @error_message   = nil
   end
 
+  # check error syntax import_error vs error_messages
   def run
     until staff.present?
       self.error_message  = staff.error_message + "\n"
-      self.error_message += "Or type 'exit' and hit 'Enter' to exit the program."
+      self.error_message += "Enter '1' to continue or '2' to exit the program."
       puts error_message
       input = gets.chomp
       abort("Exiting...Goodbye!") if input == 'exit'
@@ -25,6 +26,7 @@ class Generator
     generate_payslips
     deliver_output
     puts success_message
+    # puts number of payslips and number of errors
   end
 
   def generate_payslips

@@ -52,8 +52,8 @@ describe Generator do
 
     context 'staff is not present' do
 
-      let(:error_message) { "Input file has not been uploaded. Please save your file"\
-        " in the 'Input' folder, type 'cont' then click enter." }
+      let(:error_message) { "Input file has not been uploaded. Please save input file"\
+        " into the 'input' folder." }
       let(:generator) { Generator.new }
 
         before do
@@ -66,7 +66,7 @@ describe Generator do
 
       it 'assigns error message to display' do
         allow(generator).to receive(:gets) { 'cont' }
-        msg = error_message + "\nOr type 'exit' and hit 'Enter' to exit the program."
+        msg = error_message + "\nEnter '1' to continue or '2' to exit the program."
 
         generator.run
 
