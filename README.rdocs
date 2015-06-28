@@ -1,55 +1,37 @@
-Classes
+Employee Monthly Payslip Generator
+by Dito Hartoto
 
-PayslipEngine
-  Attributes: @output, @input @display
+Versions:
+-ruby version 2.2.0
+-rspec 3.2.3
 
+Summary:
+This is a ruby CLI application that receives bulk upload of employee details and
+generates bulk output of employee payslip information.
 
-InputValidator:
-  - When file is not present
-  - When file is empty
-  - When file missing input data (count array after split)
-  - When input data valid
-  - When input is ok
-
-Calculator: Module (or Duck Type)
-  Class Methods:
-    calculate_gross_income
-    calculate_income_tax
-    calculate_net_income
-    calculate_super
-
-TaxReference (Module?) Import (what format?)
-  logic in case statements
-
-Employee:
-  Attributes:
-    first_name
-    last_name
-    annual_salary (positive)
-    super_rate
-    tax_rate: TaxRateCalculator
-    payment_start_date
-    pay_slip: Payslip
-
-Payslip:
-  Attributes:
-    name (first last),
-    gross income ($ p month),
-    income tax($ p month),
-    net income ($ p month),
-    super ($ p month)
-  Dependencies: Calculator
-
-
-
-
-Input output in CSV
-"Hi please save input csv file into input folder"
-"Hit enter to continue" (Validation)
-
-Output on screen and in csv
+Use case:
+User uploads employee_details.csv (first name, last name, annual salary,
+super rate, pay period) into 'input' folder and gets csv output in the 'output'
+folder with payslip information (name, pay period, gross income, income tax, net
+income, and super)
 
 Assumptions:
-payment start date is actually payment start_end date
-Application is not required to calculate non full months??
-Input/Output are in csv
+- "payment start date" should actually be pay period as illustrated in the input
+  example.
+- Application is only required to calculate full months.
+- Input/Output are in csv
+- Application require error validation for correct number of inputs, salary
+  with positive integer, super rate between 0 to 50% (inclusive)
+- all super rate in the input file ends with '%'
+
+Instructions:
+1. Save 'employee_details.csv' into the 'input' folder in the following format:
+David,Rudd,60050,9%,01 March – 31 March
+Ryan,Chen,120000,10%,01 March – 31 March
+
+2. To run the application enter 'ruby payslips.rb' from the applications root directory.
+
+3. The application will prompt you to enter 1. to continue or 2. to exit the
+program.
+
+To run the test enter 'rspec' from the application root directory.

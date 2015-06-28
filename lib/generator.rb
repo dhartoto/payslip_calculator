@@ -13,7 +13,7 @@ class Generator
     @validation_errors  = []
     @error_message      = nil
   end
-  require 'pry'
+
   def run
     unless staff.present?
       self.error_message  = staff.import_error
