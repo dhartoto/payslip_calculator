@@ -15,11 +15,12 @@ module Input
 
     def self.import
       if not file_present?
-        msg = "Input file has not been uploaded. Please save input file"\
-          " into the 'input' folder."
+        msg = "'employee_details.csv' has not been uploaded. Please save it"\
+          " into the 'input' folder then try again."
         new(error_message: msg)
       elsif import_file.empty?
-        msg = "Input file is blank. Please add employee details to file."
+        msg = "'employee_details.csv' is blank. Please add employee details to"\
+        " file then try again."
         new(error_message: msg)
       else
         new(content: build_content)
@@ -71,7 +72,7 @@ module Input
         # First validation is seperated because other validation fails if input nr < 5.
         # This is a limitation in the validation algorithm.
         if not_enough_user_inputs?(array)
-          error = "Line #{line_nr}: Not enough user inputs."
+          error = ["Line #{line_nr}: Not enough user inputs."]
         else
           error = []
           error << "Line #{line_nr}: Annual salary cannot be negative." if salary_negative?(array)

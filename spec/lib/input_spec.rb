@@ -52,8 +52,8 @@ describe Input do
         end
         it 'should return error message' do
           resp = Input::Data.import
-          msg = "Input file has not been uploaded. Please save input file"\
-            " into the 'input' folder."
+          msg = "'employee_details.csv' has not been uploaded. Please save it"\
+            " into the 'input' folder then try again."
           expect(resp.error_message).to eq(msg)
         end
       end
@@ -72,7 +72,7 @@ describe Input do
         end
         it 'should return error message' do
           resp = Input::Data.import
-          msg = "Input file is blank. Please add employee details to file."
+          msg = "'employee_details.csv' is blank. Please add employee details to file then try again."
           expect(resp.error_message).to eq(msg)
         end
       end
@@ -103,7 +103,7 @@ describe Input do
         end
         it 'assigns error_message' do
           resp = Input::Validator.validate(data, 1)
-          msg = "Line 1: Not enough user inputs."
+          msg = ["Line 1: Not enough user inputs."]
           expect(resp.error_messages).to eq(msg)
         end
       end
