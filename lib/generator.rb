@@ -32,7 +32,8 @@ class Generator
 
   def generate_payslips
     staff.list.each do |employee|
-      self.payslips << Payslip.generate(employee)
+      payslip = Payslip.new(employee)
+      self.payslips << payslip.generate
     end
     self.validation_errors += staff.validation_errors
     set_completion_message

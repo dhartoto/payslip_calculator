@@ -27,12 +27,14 @@ describe Generator do
 
     context 'when staff is present' do
       let(:generator) { Generator.new }
+      let(:payslip) { double('payslip') }
 
       before do
         allow(staff).to receive_messages(present?: true,
           list:  ['staff_1', 'staff_2'],
           validation_errors: [])
-        allow(Payslip).to receive(:generate) { 'pay_slip' }
+        allow(payslip).to receive(:generate) { 'pay_slip' }
+        allow(Payslip).to receive(:new) { payslip }
       end
       it 'generates payslips' do
         generator.run
@@ -70,6 +72,7 @@ describe Generator do
       let(:error_message) { "Input file has not been uploaded. Please save input file"\
         " into the 'input' folder." }
       let(:generator) { Generator.new }
+      let(:payslip) { double('payslip') }
 
         before do
           allow(staff).to receive(:present?).and_return(false, true)
@@ -78,6 +81,8 @@ describe Generator do
             list:  ['staff_1', 'staff_2'],
             validation_errors: []
           )
+          allow(payslip).to receive(:generate) { 'pay_slip' }
+          allow(Payslip).to receive(:new) { payslip }
         end
 
       it 'assigns error message to display' do
