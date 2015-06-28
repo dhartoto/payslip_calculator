@@ -37,6 +37,7 @@ describe Generator do
         allow(Payslip).to receive(:new) { payslip }
       end
       it 'generates payslips' do
+        allow(OutputFile).to receive(:deliver)
         generator.run
         expect(generator.payslips.count).to eq(2)
       end
@@ -48,6 +49,7 @@ describe Generator do
       context 'when no validation error in input file.' do
 
         it 'assigns completion message with 0 errors' do
+          allow(OutputFile).to receive(:deliver)
           msg = "2 payslip information were generated and delivered to the"\
             " output folder with 0 errors."
           generator.run
@@ -58,6 +60,7 @@ describe Generator do
 
       context 'when 1 validation error in input file.' do
         it 'assigns completion message with 1 error' do
+          allow(OutputFile).to receive(:deliver)
           allow(staff).to receive(:validation_errors) { ["some error"] }
           msg = "2 payslip information were generated and delivered to the"\
             " output folder with 1 errors."
@@ -83,6 +86,7 @@ describe Generator do
           )
           allow(payslip).to receive(:generate) { 'pay_slip' }
           allow(Payslip).to receive(:new) { payslip }
+          allow(OutputFile).to receive(:deliver)
         end
 
       it 'assigns error message to display' do
