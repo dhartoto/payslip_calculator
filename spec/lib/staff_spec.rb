@@ -28,7 +28,7 @@ describe Staff do
     end
     context 'when import error' do
 
-      let(:msg)     { "Input file is blank. Please add employee details to file." }
+      let(:msg)     { ["Input file is blank. Please add employee details to file."] }
       let(:file) { OpenStruct.new(successful?: false, error_message: msg) }
       before { allow(Input::Data).to receive(:import) { file } }
 
@@ -46,7 +46,7 @@ describe Staff do
     context 'when validation error' do
 
       let(:file) { OpenStruct.new(successful?: true, content: ["David,Rudd,-60050,9%,01 March – 31 March"]) }
-      let(:msg)     { "Line 1: Annual salary cannot be negative.\n" }
+      let(:msg)     { ["Line 1: Annual salary cannot be negative."] }
       let(:validation) { OpenStruct.new(successful?: false, error_messages: msg) }
 
       before do
@@ -63,7 +63,7 @@ describe Staff do
     context 'when one valid and one error' do
 
       let(:file) { OpenStruct.new(successful?: true, content: ["David,Rudd,-60050,9%,01 March – 31 March", "Ryan,Chen,120000,10%,01 March – 31 March"]) }
-      let(:msg) { "error message" }
+      let(:msg) { ["error message"] }
       let(:validation_1) { OpenStruct.new(successful?: false, error_messages: msg) }
       let(:validation_2) { OpenStruct.new(successful?: true) }
 
@@ -83,4 +83,25 @@ describe Staff do
       end
     end
   end
+
+  describe '#present?' do
+    it 'returns true if staff list is present' do
+      file = OpenStruct.new(successful?: true, content: ["David,Rudd,60050,9%,01 March – 31 March",
+        "Ryan,Chen,120000,10%,01 March – 31 March"])
+      allow(Input::Data).to receive(:import) { file }
+      allow(Employee).to receive(:create) { Employee.new }
+
+      staff = Staff.create
+      expect(staff.present?).to be_truthy
+    end
+    it 'returns false if staff list is not present' do
+      msg = "Input file is blank. Please add employee details to file."
+      file = OpenStruct.new(successful?: false, error_message: msg)
+      allow(Input::Data).to receive(:import) { file }
+
+      staff = Staff.create
+      expect(staff.present?).to be_falsey
+    end
+  end
+
 end
