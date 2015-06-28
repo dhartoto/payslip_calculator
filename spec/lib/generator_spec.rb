@@ -50,7 +50,7 @@ describe Generator do
 
         it 'assigns completion message with 0 errors' do
           allow(OutputFile).to receive(:deliver)
-          msg = "2 payslip information were generated and delivered to the"\
+          msg = "2 payslips were generated and delivered to the"\
             " output folder with 0 errors."
           generator.run
           expect(generator.completion_message).to eq(msg)
@@ -62,7 +62,7 @@ describe Generator do
         it 'assigns completion message with 1 error' do
           allow(OutputFile).to receive(:deliver)
           allow(staff).to receive(:validation_errors) { ["some error"] }
-          msg = "2 payslip information were generated and delivered to the"\
+          msg = "2 payslips were generated and delivered to the"\
             " output folder with 1 errors."
           generator.run
           expect(generator.completion_message).to eq(msg)
@@ -70,43 +70,7 @@ describe Generator do
       end
 
     end
-
-    context 'staff is not present' do
-      let(:error_message) { "Input file has not been uploaded. Please save input file"\
-        " into the 'input' folder." }
-      let(:generator) { Generator.new }
-      let(:payslip) { double('payslip') }
-
-        before do
-          allow(staff).to receive(:present?).and_return(false, true)
-          allow(staff).to receive_messages(
-            import_error: error_message,
-            list:  ['staff_1', 'staff_2'],
-            validation_errors: []
-          )
-          allow(payslip).to receive(:generate) { 'pay_slip' }
-          allow(Payslip).to receive(:new) { payslip }
-          allow(OutputFile).to receive(:deliver)
-        end
-
-      it 'assigns error message to display' do
-        allow(generator).to receive(:gets) { '1' }
-        msg = error_message + "\nEnter '1' to continue or '2' to exit the program."
-        generator.run
-        expect(generator.error_message).to eq(msg)
-      end
-      it 'creates staff after user enters cont' do
-        allow(generator).to receive(:gets) { '1' }
-        expect(Staff).to receive(:create)
-        generator.run
-      end
-      it 'exits with message after user enters exit' do
-        allow(generator).to receive(:gets) { '2' }
-        msg = "Exiting...Goodbye!"
-        resp = lambda{ generator.run }
-        expect(resp).to raise_error(SystemExit, msg)
-      end
-    end
+    
   end
 
 end

@@ -13,21 +13,16 @@ class Generator
     @validation_errors  = []
     @error_message      = nil
   end
-
-  # check error syntax import_error vs error_messages
+  require 'pry'
   def run
-    until staff.present?
-      self.error_message  = staff.import_error + "\n"
-      self.error_message += "Enter '1' to continue or '2' to exit the program."
-      puts error_message
-      input = gets.chomp
-      abort("Exiting...Goodbye!") if input == '2'
-      self.staff = Staff.create
+    unless staff.present?
+      self.error_message  = staff.import_error
+      abort(error_message)
     end
     generate_payslips
     deliver_output
     puts completion_message
-    display_all_validation_errors
+    display_all_validation_errors unless validation_errors.empty?
   end
 
   def generate_payslips
@@ -46,12 +41,13 @@ class Generator
   private
 
   def set_completion_message
-    self.completion_message = "#{payslips.count} payslip information were"\
+    self.completion_message = "#{payslips.count} payslips were"\
     " generated and delivered to the output folder with #{validation_errors.count}"\
     " errors."
   end
 
   def display_all_validation_errors
+    puts "Error log:"
     validation_errors.each {|error| puts error}
   end
 
