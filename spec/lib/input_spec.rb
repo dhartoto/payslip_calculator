@@ -53,7 +53,7 @@ describe Input do
         it 'should return error message' do
           resp = Input::Data.import
           msg = "Input file has not been uploaded. Please save input file"\
-            " in to the 'input' folder."
+            " into the 'input' folder."
           expect(resp.error_message).to eq(msg)
         end
       end
@@ -103,7 +103,7 @@ describe Input do
         end
         it 'assigns error_message' do
           resp = Input::Validator.validate(data, 1)
-          msg = "Line 1: Not enough user inputs.\n"
+          msg = "Line 1: Not enough user inputs."
           expect(resp.error_messages).to eq(msg)
         end
       end
@@ -118,7 +118,7 @@ describe Input do
         end
         it 'assigns error_message' do
           resp = Input::Validator.validate(data, 1)
-          msg = "Line 1: Annual salary cannot be negative.\n"
+          msg = ["Line 1: Annual salary cannot be negative."]
           expect(resp.error_messages).to eq(msg)
         end
       end
@@ -132,13 +132,13 @@ describe Input do
         it 'assigns error_message when above 50%' do
           data = "David, Rudd,60050,51%,01 March – 31 March"
           resp = Input::Validator.validate(data, 1)
-          msg = "Line 1: Super rate has to be between 0% and 50% (inclusive).\n"
+          msg = ["Line 1: Super rate has to be between 0% and 50% (inclusive)."]
           expect(resp.error_messages).to eq(msg)
         end
         it 'assigns error_message when below 0%' do
           data = "David, Rudd,60050,-1%,01 March – 31 March"
           resp = Input::Validator.validate(data, 1)
-          msg = "Line 1: Super rate has to be between 0% and 50% (inclusive).\n"
+          msg = ["Line 1: Super rate has to be between 0% and 50% (inclusive)."]
           expect(resp.error_messages).to eq(msg)
         end
       end
@@ -146,12 +146,11 @@ describe Input do
         it 'returns multiple errors' do
           data = "David, Rudd,-60050,-1%,01 March – 31 March"
           resp = Input::Validator.validate(data, 1)
-          msg = "Line 1: Annual salary cannot be negative.\n"\
-            "Line 1: Super rate has to be between 0% and 50% (inclusive).\n"
+          msg = ["Line 1: Annual salary cannot be negative.",\
+            "Line 1: Super rate has to be between 0% and 50% (inclusive)."]
           expect(resp.error_messages).to eq(msg)
         end
       end
     end
-
   end
 end
