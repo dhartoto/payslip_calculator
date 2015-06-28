@@ -4,11 +4,11 @@ require 'pry'
 
 class Staff
 
-  attr_reader :list, :error_messages, :import_error
+  attr_reader :list, :validation_errors, :import_error
 
   def initialize(options={})
     @list           = options[:list]
-    @error_messages = options[:error_messages]
+    @validation_errors = options[:validation_errors]
     @import_error   = options[:import_error]
   end
 
@@ -29,14 +29,14 @@ class Staff
 
   def self.validate_employee_details_and_create_list(file)
     list = []
-    error_messages = []
+    validation_errors = []
     file.content.each_with_index do |employee_details, index|
       line_nr = index + 1
       validation = Input::Validator.validate(employee_details, line_nr)
-      error_messages += validation.error_messages if not validation.successful?
+      validation_errors += validation.error_messages if not validation.successful?
       list << Employee.create(employee_details) if validation.successful?
     end
-    new(list: list, error_messages: error_messages)
+    new(list: list, validation_errors: validation_errors)
   end
 
 end

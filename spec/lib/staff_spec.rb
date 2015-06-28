@@ -56,7 +56,7 @@ describe Staff do
 
       it 'assigns errors to error_messages' do
         staff = Staff.create
-        expect(staff.error_messages).to eq(msg)
+        expect(staff.validation_errors).to eq(msg)
       end
     end
 
@@ -75,7 +75,7 @@ describe Staff do
 
       it 'assigns errors to error_messages' do
         staff = Staff.create
-        expect(staff.error_messages).not_to be_nil
+        expect(staff.validation_errors).not_to be_nil
       end
       it 'assigns lists to error_messages' do
         staff = Staff.create
