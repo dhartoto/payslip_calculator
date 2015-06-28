@@ -42,7 +42,7 @@ module Input
 
     def self.build_content
       file = import_file
-      file.split(/\n/)
+      file.split(/\r?\n/)
     end
   end
 

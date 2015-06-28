@@ -1,5 +1,5 @@
-require 'input'
-require 'employee'
+require_relative 'input'
+require_relative 'employee'
 require 'pry'
 
 class Staff

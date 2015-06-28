@@ -1,4 +1,4 @@
-require 'tax_calculator'
+require_relative 'tax_calculator'
 
 class Payslip
 
@@ -16,6 +16,7 @@ class Payslip
     self.income_tax = TaxCalculator.calculate(employee)
     self.net_income = calc_net_income
     self.super = calc_super
+    self
   end
 
   def calc_gross_income

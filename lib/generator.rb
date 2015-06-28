@@ -1,6 +1,6 @@
-require 'output_file'
-require 'staff'
-require 'payslip'
+require_relative 'output_file'
+require_relative 'staff'
+require_relative 'payslip'
 
 class Generator
 

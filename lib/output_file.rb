@@ -1,5 +1,4 @@
 require "csv"
-require 'pry'
 
 class OutputFile
 
@@ -8,13 +7,13 @@ class OutputFile
 
   def self.deliver(obj)
     CSV.open("#{FOLDER}/#{FILENAME}", "w") do |csv|
-      obj.list.each do |payslip|
+      obj.payslips.each do |payslip|
         payslip_string = get_payslip_array(payslip)
         csv << payslip_string
       end
     end
   end
-  
+
 private
 
   def self.get_payslip_array(payslip)

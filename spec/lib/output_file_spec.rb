@@ -20,7 +20,7 @@ describe OutputFile do
       net_income: 7304,
       super: 1000)
   end
-  let(:generator) { OpenStruct.new(list: [payslip_david, payslip_ryan]) }
+  let(:generator) { OpenStruct.new(payslips: [payslip_david, payslip_ryan]) }
 
   after { File.delete('output/payslip_information.csv')}
 

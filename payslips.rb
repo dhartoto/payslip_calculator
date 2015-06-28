@@ -1,4 +1,4 @@
-# require "#{Dir.pwd}/lib/generator.rb"
+require "./lib/generator"
 
 puts 'Welcome to the Payslip Generator'
 
@@ -18,7 +18,7 @@ loop do
 
 
   puts 'Please save your csv input file in the Input folder then click enter'
-  generator = PayslipGenerator.new
+  generator = Generator.new
   generator.run
 
 end
