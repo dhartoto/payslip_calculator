@@ -34,4 +34,9 @@ Ryan,Chen,120000,10%,01 March – 31 March
 3. The application will prompt you to enter 1. to continue or 2. to exit the
 program.
 
+If 'employee_details.csv' is either not present or blank the application will
+notify you of the error and exit.
+The application will notify the user if there are any validation errors after
+generating the output csv file under "Error Log"
+
 To run the test enter 'rspec' from the application root directory.
